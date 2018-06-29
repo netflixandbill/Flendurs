@@ -3,7 +3,7 @@ from discord.ext import commands
 from .utils.dataIO import dataIO
 import asyncio
 
-class BoofSync:
+class boofsync:
     """You can now boof with another person"""
 
     def __init__(self, bot):
@@ -41,7 +41,7 @@ class BoofSync:
         except:
             self.messagem[channel.id] = []
             react = False
-            await self.bot.edit_message(message, "Everyone, let's bless the boof for **{}**! Type `B` reaction on the this message to bless this boof.".format(answer))
+            await self.bot.edit_message(message, "Everyone, let's bless the boof for **{}**! Type `B` reaction on the this message to confirm you have boofed.".format(answer))
             await self.bot.wait_for_message(channel=ctx.message.channel)
 
         await asyncio.sleep(120)
@@ -51,7 +51,7 @@ class BoofSync:
         else:
             amount = len(self.messagem[channel.id])
 
-        await self.bot.send_message(channel, "**{}** {} gave their blessing to **{}**.".format(amount, "person has" if str(amount) == "1" else "people have", answer))
+        await self.bot.send_message(channel, "**{}** {} has boofed.".format(amount, "person has" if str(amount) == "1" else "people have", answer))
         
         if react:
             del self.messager[channel.id]
@@ -67,7 +67,7 @@ class BoofSync:
             return    
         if user.id not in self.messager[channel.id]:
             if str(reaction.emoji) == "\U0001F171": 
-                await self.bot.send_message(channel, "**{}** has given their blessing.".format(user.display_name))
+                await self.bot.send_message(channel, "**{}** has boofed their boof.".format(user.display_name))
                 self.messager[channel.id].append(user.id)
 
     async def on_message(self, message):
@@ -77,8 +77,8 @@ class BoofSync:
             return    
         if user.id not in self.messagem[channel.id]:
             if message.content.lower() == "B":
-                await self.bot.send_message(channel, "**{}** has blessed.".format(user.display_name))
+                await self.bot.send_message(channel, "**{}** boofed".format(user.display_name))
                 self.messagem[channel.id].append(user.id)
 
 def setup(bot):
-    bot.add_cog(BoofSync(bot))
+    bot.add_cog(boofsync(bot))
